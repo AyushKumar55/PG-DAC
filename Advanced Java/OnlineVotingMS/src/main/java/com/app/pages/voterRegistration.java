@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.app.dao.UserDaoImpl;
 import com.app.entities.User;
 
-@WebServlet(value="/voter_register", loadOnStartup = 2)
+@WebServlet(value="/voterRegistration/voter_register")
+
 public class voterRegistration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      
@@ -42,7 +43,7 @@ public class voterRegistration extends HttpServlet {
 			String fname = request.getParameter("fn");
 			String lname = request.getParameter("ln");
 			String email = request.getParameter("email");
-			String pword = request.getParameter("password");
+			String pword = request.getParameter("pword");
 			Date dob  = Date.valueOf(request.getParameter("dob"));
 			
 			LocalDate birthdate = dob.toLocalDate();
@@ -52,13 +53,14 @@ public class voterRegistration extends HttpServlet {
 				//5. Creating a new User Object
 				User newVoter = new User(fname,lname,email,pword,dob);
 				//6. Method is called with new user as the parameter 
-				String msg = userdao.voterRegistration(newVoter);
+				userdao.voterRegistration(newVoter);
 				//7. Link provided for user to get back to login page after successful signUp
-				pw.print("<h5>Registration Successful, Click <a href='./login/login.html'>here</a> to Login");
+				response.sendRedirect("/OnlineVotingMS/");
+				
 			}
 			else {
 				//8. Link provided for user to retry signUp after unsuccessful signUp
-				pw.print("<h5> Invalid Registration, Age should be 21 or above. Click <a href='./voterRegistration/voter_registration.html'>here</a> to Retry");
+				response.sendRedirect("/OnlineVotingMS/voterRegistration/voter_registration.html");
 			}
 		}
 		catch(Exception e) {

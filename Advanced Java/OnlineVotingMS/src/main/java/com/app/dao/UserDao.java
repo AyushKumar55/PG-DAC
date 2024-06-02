@@ -10,6 +10,6 @@ public interface UserDao {
 	User signIn(String email, String password) throws SQLException;
 	
 	//Method for Voter Registration
-	String voterRegistration(User newVoter) throws SQLException;
+	void voterRegistration(User newVoter) throws SQLException;
 
 }
