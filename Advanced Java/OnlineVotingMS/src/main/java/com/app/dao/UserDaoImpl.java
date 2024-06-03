@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
 		pst1 = cn.prepareStatement("select * from users where email = ? and password = ?");
 
 		// pst2: SignUp(voterRegistration)
-		pst2 = cn.prepareStatement("insert into users values(default,?,?,?,?,?,0,?)");
+		pst2 = cn.prepareStatement("insert into users values(default,?,?,?,?,?,?,?)");
 
 		System.out.println("User Dao Created...");
 	}
@@ -58,7 +58,8 @@ public class UserDaoImpl implements UserDao {
 		pst2.setString(3, newVoter.getEmail());
 		pst2.setString(4, newVoter.getPassword());
 		pst2.setDate(5, newVoter.getDob());
-		pst2.setString(6, newVoter.getRole());
+		pst2.setBoolean(6, newVoter.isStatus());
+		pst2.setString(7, newVoter.getRole());
 
 		pst2.executeUpdate();
 	}

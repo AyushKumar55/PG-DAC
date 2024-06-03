@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.app.dao.UserDaoImpl;
 import com.app.entities.User;
 
-@WebServlet(value="/voterRegistration/voter_register")
+@WebServlet(value="/voter_register")
 
 public class voterRegistration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -55,12 +55,12 @@ public class voterRegistration extends HttpServlet {
 				//6. Method is called with new user as the parameter 
 				userdao.voterRegistration(newVoter);
 				//7. Link provided for user to get back to login page after successful signUp
-				response.sendRedirect("/OnlineVotingMS/");
+				pw.print("<h5>Registration Successful !!! Please Click <a href='login.html'>Here</a> to Login<h5>");
 				
 			}
 			else {
 				//8. Link provided for user to retry signUp after unsuccessful signUp
-				response.sendRedirect("/OnlineVotingMS/voterRegistration/voter_registration.html");
+				pw.print("<h5>Registration Unsuccessful !!! Age should be 21 or above.<br>Click <a href='login.html'>Here</a>and Retry!<h5>");
 			}
 		}
 		catch(Exception e) {
