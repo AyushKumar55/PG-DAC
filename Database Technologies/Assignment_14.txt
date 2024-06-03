@@ -1,0 +1,293 @@
+Q1. Create the MongoDB collection.
+
+test> show dbs;
+Assignment14    8.00 KiB
+admin          40.00 KiB
+config         96.00 KiB
+local          72.00 KiB
+testing1      120.00 KiB
+test> use A14;
+switched to db A14
+
+A14> db.createCollection("books");
+{ ok: 1 }
+
+A14> db.books.insertOne({ refno: 1001, name: "Python Prog", author: "Shyam", coauthor: "Rakesh", pages: 350, price: 450 });
+{
+  acknowledged: true,
+  insertedId: ObjectId('6632891ec8691e7bac2202d8')
+}
+
+db.books.insertMany([
+{refno: 1002, name: "Java Prog", author: "Amita", pages: 300, price: 500},
+{refno: 1003, name: "HTML", author: "Amita", coauthor: "Shyam", pages: 225, price: 300},
+{refno: 1004, name: "MongoDB", author: "Shyam", pages: 440, price: 500},
+{refno: 1005, name: "MySQL", author: "Shrikant", coauthor: "Nitin", pages: 330, price: 630},
+]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('66328a3ac8691e7bac2202d9'),
+    '1': ObjectId('66328a3ac8691e7bac2202da'),
+    '2': ObjectId('66328a3ac8691e7bac2202db'),
+    '3': ObjectId('66328a3ac8691e7bac2202dc')
+  }
+}
+
+1. Count how many books wrote by Amita.
+A14> db.books.countDocuments({author: 'Amita'})
+2
+
+2. Count total books written by Shyam.
+A14> db.books.countDocuments({$or:[{author: 'Shyam'},{coauthor:'Shyam'}]})
+3
+
+3. How many author's books are available in library?
+db.books.distinct('author').length
+3
+
+4. Find average cost of books in library.
+A14> db.books.aggregate([{$group: {_id:null, Avg_price: {$avg:'$price'}}},{$project:{_id:0}}])
+[ { Avg_price: 476 } ]
+
+5. Find total number of pages of books authored by Shyam.
+A14> db.books.aggregate([{$match: {'author':'Shyam'}},{$group: {_id:'$author', TotalPages:{$sum:'$pages'}}},{$project: {_id:0}}])
+[ { TotalPages: 790 } ]
+
+6. Sort the books by descending order of pages.
+A14> db.books.find().sort({'pages':-1})
+[
+  {
+    _id: ObjectId('66328a3ac8691e7bac2202db'),
+    refno: 1004,
+    name: 'MongoDB',
+    pages: 440,
+    price: 500,
+    author: 'Shyam'
+  },
+  {
+    _id: ObjectId('6632891ec8691e7bac2202d8'),
+    refno: 1001,
+    name: 'Python Prog',
+    coauthor: 'Rakesh',
+    pages: 350,
+    price: 450,
+    author: 'Shyam'
+  },
+  {
+    _id: ObjectId('66328a3ac8691e7bac2202dc'),
+    refno: 1005,
+    name: 'MySQL',
+    coauthor: 'Nitin',
+    pages: 330,
+    price: 630,
+    author: 'Shrikant'
+  },
+  {
+    _id: ObjectId('66328a3ac8691e7bac2202d9'),
+    refno: 1002,
+    name: 'Java Prog',
+    pages: 300,
+    price: 500,
+    author: 'Amita'
+  },
+  {
+    _id: ObjectId('66328a3ac8691e7bac2202da'),
+    refno: 1003,
+    name: 'HTML',
+    coauthor: 'Shyam',
+    pages: 225,
+    price: 300,
+    author: 'Amita'
+  }
+]
+
+7. Change the id of book 'MongoDB' to 1014.
+A14> db.books.updateOne({name:'MongoDB'},{$set:{'refno':1014}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+8. Find total books whose cost is above 400.
+
+A14> db.books.find({price:{$gt:400}})
+[
+  {
+    _id: ObjectId('6632891ec8691e7bac2202d8'),
+    refno: 1001,
+    name: 'Python Prog',
+    coauthor: 'Rakesh',
+    pages: 350,
+    price: 450,
+    author: 'Shyam'
+  },
+  {
+    _id: ObjectId('66328a3ac8691e7bac2202d9'),
+    refno: 1002,
+    name: 'Java Prog',
+    pages: 300,
+    price: 500,
+    author: 'Amita'
+  },
+  {
+    _id: ObjectId('66328a3ac8691e7bac2202db'),
+    refno: 1014,
+    name: 'MongoDB',
+    pages: 440,
+    price: 500,
+    author: 'Shyam'
+  },
+  {
+    _id: ObjectId('66328a3ac8691e7bac2202dc'),
+    refno: 1005,
+    name: 'MySQL',
+    coauthor: 'Nitin',
+    pages: 330,
+    price: 630,
+    author: 'Shrikant'
+  }
+]
+
+9. Delete the co-author of book 'MySQL'.
+
+A14> db.books.updateOne({'name':'MySQL'},{$unset:{'coauthor':''}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+
+=======================================================================================
+
+Q2. Create a collection as expected.
+
+A14> db.createCollection("Cricketer")
+{ ok: 1 }
+
+A14> db.Cricketer.insertMany([{name:'ajay',matches: 58,runs: 3820,catches: 32},{name: 'vijay', matches: 32, runs: 4205, catches: 11},{name:'ram',matches: 230,runs: 6390,catches: 105}, {name:'ahmed',matches: 192,runs: 5502, wickets: 13, catches: 111, stumpings: 11},{name:'akshay',matches: 101,runs: 699, wickets: 89, catches: 71},{name:'prem',matches: 57,runs: 1054, wickets: 69, catches: 55}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6632baea672cb821962202d8'),
+    '1': ObjectId('6632baea672cb821962202d9'),
+    '2': ObjectId('6632baea672cb821962202da'),
+    '3': ObjectId('6632baea672cb821962202db'),
+    '4': ObjectId('6632baea672cb821962202dc'),
+    '5': ObjectId('6632baea672cb821962202dd')
+  }
+}
+
+1. Find the information of all the bowlers.
+A14> db.Cricketer.find({wickets:{$gt:0}})
+[
+  {
+    _id: ObjectId('6632baea672cb821962202db'),
+    name: 'ahmed',
+    matches: 192,
+    runs: 5502,
+    wickets: 13,
+    catches: 111,
+    stumpings: 11
+  },
+  {
+    _id: ObjectId('6632baea672cb821962202dc'),
+    name: 'akshay',
+    matches: 101,
+    runs: 699,
+    wickets: 89,
+    catches: 71
+  },
+  {
+    _id: ObjectId('6632baea672cb821962202dd'),
+    name: 'prem',
+    matches: 57,
+    runs: 1054,
+    wickets: 69,
+    catches: 55
+  }
+]
+
+2. Print the information about the wicketkeepers only.
+db.Cricketer.find({stumping:{gt:0}})
+A14> db.Cricketer.find({stumpings:{$gt:0}})
+[
+  {
+    _id: ObjectId('6632baea672cb821962202db'),
+    name: 'ahmed',
+    matches: 192,
+    runs: 5502,
+    wickets: 13,
+    catches: 111,
+    stumpings: 11
+  }
+]
+
+3. Delete the wickets for the player who has stumpings.
+A14> db.Cricketer.updateOne({stumpings:{$gt:0}}, {$unset:{wickets:''}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+A14> db.Cricketer.find({stumpings:{$gt:0}})
+[
+  {
+    _id: ObjectId('6632baea672cb821962202db'),
+    name: 'ahmed',
+    matches: 192,
+    runs: 5502,
+    catches: 111,
+    stumpings: 11
+  }
+]
+
+4. Update the matches and wickets of player 'Ram' to 61 and 71.
+A14> db.Cricketer.updateOne({name:'ram'}, {$set:{matches:61, wickets:71}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+A14> db.Cricketer.find({name:'ram'})
+[
+  {
+    _id: ObjectId('6632baea672cb821962202da'),
+    name: 'ram',
+    matches: 61,
+    runs: 6390,
+    catches: 105,
+    wickets: 71
+  }
+]
+
+5. Print the information of players who have taken more than 100 catches.
+A14> db.Cricketer.find({catches:{$gt:100}})
+[
+  {
+    _id: ObjectId('6632baea672cb821962202da'),
+    name: 'ram',
+    matches: 61,
+    runs: 6390,
+    catches: 105,
+    wickets: 71
+  },
+  {
+    _id: ObjectId('6632baea672cb821962202db'),
+    name: 'ahmed',
+    matches: 192,
+    runs: 5502,
+    catches: 111,
+    stumpings: 11
+  }
+]

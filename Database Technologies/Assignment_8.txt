@@ -1,0 +1,146 @@
+Assignment No. 8
+
+Create a database named college
+Create a table name student in college database with following structure
+roll,name,class,marks,age with respective datatypes.
+Insert at least 7 entries in it.
+
+mysql> create database Assign8;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use Assign8
+Database changed
+
+mysql> CREATE TABLE IF NOT EXISTS student (   rollno int(2),   name varchar(30),   class varchar(10),   marks int,   age int );
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> INSERT INTO student VALUES
+    -> (1, 'John Deo', 'SE', 75, 20 ),
+    -> (2, 'Max Ruin', 'BE', 85, 23),
+    -> (3, 'Arnold', 'TE', 55, 22),
+    -> (4, 'Krish Star', 'BE', 60, 23),
+    -> (5, 'John Mike', 'BE', 60, 24),
+    -> (6, 'Alex John', 'SE', 55, 22),
+    -> (7, 'John Rob', 'TE', 78, 23);
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++--------+------------+-------+-------+------+
+| rollno | name       | class | marks | age  |
++--------+------------+-------+-------+------+
+|      1 | John Deo   | SE    |    75 |   20 |
+|      2 | Max Ruin   | BE    |    85 |   23 |
+|      3 | Arnold     | TE    |    55 |   22 |
+|      4 | Krish Star | BE    |    60 |   23 |
+|      5 | John Mike  | BE    |    60 |   24 |
+|      6 | Alex John  | SE    |    55 |   22 |
+|      7 | John Rob   | TE    |    78 |   23 |
++--------+------------+-------+-------+------+
+7 rows in set (0.00 sec)
+
+1) Create a procedure to pass the range of marks as input and print names of the students who lies in the range.
+
+mysql> delimiter &&
+mysql> create procedure rangeMarks(in r1 int, in r2 int)
+    -> begin
+    -> select name,marks from student where marks>=r1 AND marks<=r2;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call rangeMarks(60,80);
++------------+-------+
+| name       | marks |
++------------+-------+
+| John Deo   |    75 |
+| Krish Star |    60 |
+| John Mike  |    60 |
+| John Rob   |    78 |
++------------+-------+
+4 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+2) Create a procedure to display the summary table of the student record including sum, average, minimum and maximum of marks.
+
+delimiter &&
+mysql> create procedure summaryTable()
+    -> begin
+    -> select sum(marks) as Sum, avg(marks) as Average, min(marks) as MinMarks,max(marks) as MaxMarks from student;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call summaryTable();
++------+---------+----------+----------+
+| Sum  | Average | MinMarks | MaxMarks |
++------+---------+----------+----------+
+|  468 | 66.8571 |       55 |       85 |
++------+---------+----------+----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+3) Create a procedure to input the roll number of student and output the marks
+of the same.
+
+mysql> delimiter &&
+mysql> create procedure rollMarks(in r int)
+    -> begin
+    -> select marks from student where rollno = r;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call rollMarks(3);
++-------+
+| marks |
++-------+
+|    55 |
++-------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+4) Create a procedure to input the minimum and maximum roll number and output the average of the marks in the given range of roll numbers.
+
+mysql> delimiter &&
+mysql> create procedure minMaxRange(in min int, in max int, out Average float)
+    -> begin
+    -> select avg(marks) into Average from student where rollno between min and max;
+    -> end &&
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> call minMaxRange(2,6,@Average);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @Average;
++----------+
+| @Average |
++----------+
+|       63 |
++----------+
+1 row in set (0.01 sec)
+
+5) Write a procedure to find the count of students whose marks are below 70%
+
+mysql> delimiter &&
+mysql> create procedure percentage()
+    -> begin
+    -> select count(rollno) from student where marks<70;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call percentage();
++---------------+
+| count(rollno) |
++---------------+
+|             4 |
++---------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+

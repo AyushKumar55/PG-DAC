@@ -1,0 +1,457 @@
+Assignment No. 11
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Problem-1
+
+Create a product table with following attributes in it.
+Product ID, Product type, Name and cost
+Insert at least 8 tuples in it.
+Write a function to find the final cost of the product based on following conditions.
+1. If type = Furniture then gst = 12%
+2. If type = Electronics then gst = 18%
+3. If type = Stationary then gst = 6%
+4. Zero otherwise
+
+mysql> INSERT INTO products (product_id, product_type, name, cost)
+    -> VALUES
+    ->     (1, 'ELE', 'Smartphone', 599.99),
+    ->     (2, 'ELE', 'Phone', 19.99),
+    ->     (3, 'FUR', 'Coffee Maker', 89.50),
+    ->     (4, 'FUR', 'Bed', 12.75),
+    ->     (5, 'STA', 'Science Fiction Novel', 29.95),
+    ->     (6, 'STA', 'Pen', 79.00),
+    ->     (7, 'ELE', 'Charger', 14.99),
+    ->     (8, 'STA', 'Books', 49.50);
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> delimiter &&
+mysql> create function calcgst( pt varchar(3), cost int)
+    -> returns decimal(10,2)
+    -> deterministic
+    -> begin
+    -> declare total decimal(10,2);
+    -> if pt = 'FUR' then
+    ->        set total = cost *0.12 + cost;
+    ->     elseif pt = 'ELE' then
+    ->        set total = cost * 0.18 + cost;
+    ->     elseif pt = 'STA' then
+    ->        set total = cost * 0.6 + cost;
+    ->     else
+    ->        set total = cost;
+    ->     end if;
+    ->     return total;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> select *,calcgst(product_type,cost) as total from products;
++------------+--------------+-----------------------+--------+--------+
+| product_id | product_type | name                  | cost   | total  |
++------------+--------------+-----------------------+--------+--------+
+|          1 | ELE          | Smartphone            | 599.99 | 708.00 |
+|          2 | ELE          | Phone                 |  19.99 |  23.60 |
+|          3 | FUR          | Coffee Maker          |  89.50 | 100.80 |
+|          4 | FUR          | Bed                   |  12.75 |  14.56 |
+|          5 | STA          | Science Fiction Novel |  29.95 |  48.00 |
+|          6 | STA          | Pen                   |  79.00 | 126.40 |
+|          7 | ELE          | Charger               |  14.99 |  17.70 |
+|          8 | STA          | Books                 |  49.50 |  80.00 |
++------------+--------------+-----------------------+--------+--------+
+8 rows in set (0.00 sec)
+
+
+Problem-2
+
+Create a employees table with following attributes in it.
+Employee id, Employee name, Salary, Department, Age, Experience
+Insert at least 8 tuples in it.
+Write a function to find the gross salary of the employee based on the below
+conditions:
+1. If experience is less than 3 then no DA/HRA given.
+2. If experience is greater than or equal to 3 and less than 8 then no DA=30% of
+salary and HRA is 5% of Salary.
+3. If experience is greater than or equal to 8 then no DA=50% of salary and HRA is
+5% of Salary.
+
+mysql> CREATE TABLE employees (
+    ->   EMPLOYEE_ID decimal(6,0),
+    ->   NAME varchar(20) DEFAULT NULL,
+    ->   SALARY decimal(8,2) DEFAULT NULL,
+    ->   DEPARTMENT varchar(50) NOT NULL,
+    ->   AGE int DEFAULT NULL,
+    ->   EXPERIENCE int DEFAULT NULL
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> -- Inserting Employee 1
+mysql> INSERT INTO employees (EMPLOYEE_ID, NAME, SALARY, DEPARTMENT, AGE, EXPERIENCE)
+    -> VALUES (101, 'John', 75000.00, 'Sales', 30, 5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>
+mysql> -- Inserting Employee 2
+mysql> INSERT INTO employees (EMPLOYEE_ID, NAME, SALARY, DEPARTMENT, AGE, EXPERIENCE)
+    -> VALUES (102, 'Jane', 80000.00, 'Marketing', 28, 4);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> -- Inserting Employee 3
+mysql> INSERT INTO employees (EMPLOYEE_ID, NAME, SALARY, DEPARTMENT, AGE, EXPERIENCE)
+    -> VALUES (103, 'Michael', 90000.00, 'Finance', 35, 8);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> -- Inserting Employee 4
+mysql> INSERT INTO employees (EMPLOYEE_ID, NAME, SALARY, DEPARTMENT, AGE, EXPERIENCE)
+    -> VALUES (104, 'Emily', 65000.00, 'HR', 27, 3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> -- Inserting Employee 5
+mysql> INSERT INTO employees (EMPLOYEE_ID, NAME,  SALARY, DEPARTMENT, AGE, EXPERIENCE)
+    -> VALUES (105, 'David',  70000.00, 'IT', NULL, NULL);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> delimiter &&
+mysql> create function calcsalary( exp int, salary int)
+    -> returns decimal(10,2)
+    -> deterministic
+    -> begin
+    -> declare total decimal(10,2);
+    -> if exp >= 3 and exp <8 then
+    ->             set total = salary * 30 + salary * 5 + salary;
+    ->         elseif exp >= 8 then
+    ->             set total = salary * 50 + salary * 5 + salary;
+    ->         else
+    ->             set total = salary;
+    ->         end if;
+    ->     return total;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> select *,calcsalary(EXPERIENCE, SALARY) as total from employees;
++-------------+---------+----------+------------+------+------------+------------+
+| EMPLOYEE_ID | NAME    | SALARY   | DEPARTMENT | AGE  | EXPERIENCE | total      |
++-------------+---------+----------+------------+------+------------+------------+
+|         101 | John    | 75000.00 | Sales      |   30 |          5 | 2700000.00 |
+|         102 | Jane    | 80000.00 | Marketing  |   28 |          4 | 2880000.00 |
+|         103 | Michael | 90000.00 | Finance    |   35 |          8 | 5040000.00 |
+|         104 | Emily   | 65000.00 | HR         |   27 |          3 | 2340000.00 |
+|         105 | David   | 70000.00 | IT         | NULL |       NULL |   70000.00 |
++-------------+---------+----------+------------+------+------------+------------+
+5 rows in set (0.00 sec)
+
+
+Problem-3
+Create a student information table and demonstrate the usage of following functions
+on it.
+
+ASCII, BIN, CHARACTER_LENGTH, CONCAT, CONCAT_WS, FIELD, FIND_IN_SET, FORMAT, INSTR, LCASE, LEFT, LENGTH, LOCATE, LPAD, LTRIM, LOWER, MID, REPEAT, REPLACE, REVERSE, RIGHT, RPAD, RTRIM, SPACE, SUBSTRING, TRIM, UCASE, UPPER
+
+mysql> CREATE TABLE Student (
+    ->   id INT PRIMARY KEY AUTO_INCREMENT,
+    ->   roll_number INT UNIQUE,
+    ->   first_name VARCHAR(50) NOT NULL,
+    ->   last_name VARCHAR(50) NOT NULL,
+    ->   email VARCHAR(100) UNIQUE,
+    ->   course VARCHAR(50),
+    ->   grade CHAR(2)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO Student (roll_number, first_name, last_name, email, course, grade)
+    -> VALUES (12345, 'John', 'Doe', 'john.doe@example.com', 'Computer Science', 'A');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Student (roll_number, first_name, last_name, email, course, grade)
+    -> VALUES (54321, 'Jane', 'Smith', 'jane.smith@example.com', 'Mathematics, Physics', 'B+');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Student (roll_number, first_name, last_name, email, course, grade)
+    -> VALUES (98765, 'Alice', 'Johnson', 'alice.johnson@example.com', 'History', 'A-');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Student (roll_number, first_name, last_name, email, course, grade)
+    -> VALUES (33221, 'Emily', 'Garcia', 'emily.garcia@example.com', 'Biology', 'A');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Student (roll_number, first_name, last_name, email, course, grade)
+    -> VALUES (65432, 'Michael', 'Wang', 'michael.wang@example.com', 'Chemistry', 'C+');
+Query OK, 1 row affected (0.01 sec)
+ 
+mysql> INSERT INTO Student (roll_number, first_name, last_name, email, course, grade)
+    -> VALUES (89012, 'Sarah', 'Robinson', 'sarah.robinson@example.com', 'Psychology', 'B-');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Student (roll_number, first_name, last_name, email, course, grade)
+    -> VALUES (24680, 'William', 'Jones', 'william.jones@example.com', 'Computer Science, Art History', 'A');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Student (roll_number, first_name, last_name, email, course, grade)
+    -> VALUES (77777, 'David', 'Lee', 'david.lee@example.com', 'English Literature', 'B');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Student;
++----+-------------+------------+-----------+----------------------------+-------------------------------+-------+
+| id | roll_number | first_name | last_name | email                      | course                        | grade |
++----+-------------+------------+-----------+----------------------------+-------------------------------+-------+
+|  1 |       12345 | John       | Doe       | john.doe@example.com       | Computer Science              | A     |
+|  2 |       54321 | Jane       | Smith     | jane.smith@example.com     | Mathematics, Physics          | B+    |
+|  3 |       98765 | Alice      | Johnson   | alice.johnson@example.com  | History                       | A-    |
+|  4 |       33221 | Emily      | Garcia    | emily.garcia@example.com   | Biology                       | A     |
+|  5 |       65432 | Michael    | Wang      | michael.wang@example.com   | Chemistry                     | C+    |
+|  6 |       89012 | Sarah      | Robinson  | sarah.robinson@example.com | Psychology                    | B-    |
+|  7 |       24680 | William    | Jones     | william.jones@example.com  | Computer Science, Art History | A     |
+|  8 |       77777 | David      | Lee       | david.lee@example.com      | English Literature            | B     |
++----+-------------+------------+-----------+----------------------------+-------------------------------+-------+
+8 rows in set (0.00 sec)
+
+
+a)ASCII:
+b)BIN:
+
+mysql> select ASCII(grade), bin(id) from Student;
++--------------+---------+
+| ASCII(grade) | bin(id) |
++--------------+---------+
+|           65 | 1       |
+|           66 | 10      |
+|           65 | 11      |
+|           65 | 100     |
+|           67 | 101     |
+|           66 | 110     |
+|           65 | 111     |
+|           66 | 1000    |
++--------------+---------+
+8 rows in set (0.00 sec)
+
+
+c) CHARACTER_LENGTH:
+
+mysql> SELECT first_name, last_name, CHARACTER_LENGTH(first_name) AS first_name_length, CHARACTER_LENGTH(last_name) AS last_name_length FROM Student;
++------------+-----------+-------------------+------------------+
+| first_name | last_name | first_name_length | last_name_length |
++------------+-----------+-------------------+------------------+
+| John       | Doe       |                 4 |                3 |
+| Jane       | Smith     |                 4 |                5 |
+| Alice      | Johnson   |                 5 |                7 |
+| Emily      | Garcia    |                 5 |                6 |
+| Michael    | Wang      |                 7 |                4 |
+| Sarah      | Robinson  |                 5 |                8 |
+| William    | Jones     |                 7 |                5 |
+| David      | Lee       |                 5 |                3 |
++------------+-----------+-------------------+------------------+
+8 rows in set (0.00 sec)
+
+
+d) CONCAT
+e) CONCAT_WS
+
+mysql> select concat(first_name,last_name, ' ') as Full_Name, concat_ws(',',course,'(', grade, ')') as Course_Details from Student;
++----------------+-------------------------------------+
+| Full_Name      | Course_Details                      |
++----------------+-------------------------------------+
+| JohnDoe        | Computer Science,(,A,)              |
+| JaneSmith      | Mathematics, Physics,(,B+,)         |
+| AliceJohnson   | History,(,A-,)                      |
+| EmilyGarcia    | Biology,(,A,)                       |
+| MichaelWang    | Chemistry,(,C+,)                    |
+| SarahRobinson  | Psychology,(,B-,)                   |
+| WilliamJones   | Computer Science, Art History,(,A,) |
+| DavidLee       | English Literature,(,B,)            |
++----------------+-------------------------------------+
+8 rows in set (0.00 sec)
+
+
+f) FIELD
+
+mysql> SELECT FIELD(course, 'Computer Science', 'Mathematics', 'Physics') FROM Student WHERE id = 1;
++-------------------------------------------------------------+
+| FIELD(course, 'Computer Science', 'Mathematics', 'Physics') |
++-------------------------------------------------------------+
+|                                                           1 |
++-------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+
+g) FIND_IN_SET
+
+mysql> select * from Student where find_in_set('Mathematics',course)>0;
++----+-------------+------------+-----------+------------------------+----------------------+-------+
+| id | roll_number | first_name | last_name | email                  | course               | grade |
++----+-------------+------------+-----------+------------------------+----------------------+-------+
+|  2 |       54321 | Jane       | Smith     | jane.smith@example.com | Mathematics, Physics | B+    |
++----+-------------+------------+-----------+------------------------+----------------------+-------+
+1 row in set (0.00 sec)
+ 
+
+h) FORMAT
+
+mysql> SELECT FORMAT(roll_number, 0) FROM Student WHERE id = 1;
++------------------------+
+| FORMAT(roll_number, 0) |
++------------------------+
+| 12,345                 |
++------------------------+
+1 row in set (0.01 sec)
+
+
+i) INSTR
+j) SUBSTRING
+
+mysql> select first_name, substring(email, instr(email, '@') + 1) as domain from Student;
++------------+-------------+
+| first_name | domain      |
++------------+-------------+
+| John       | example.com |
+| Jane       | example.com |
+| Alice      | example.com |
+| Emily      | example.com |
+| Michael    | example.com |
+| Sarah      | example.com |
+| William    | example.com |
+| David      | example.com |
++------------+-------------+
+8 rows in set (0.00 sec)
+
+
+k) UPPER/UCASE
+l) LOWER/LCASE
+
+mysql> select upper(first_name) , lower(last_name) from Student;
++-------------------+------------------+
+| upper(first_name) | lower(last_name) |
++-------------------+------------------+
+| JOHN              | doe              |
+| JANE              | smith            |
+| ALICE             | johnson          |
+| EMILY             | garcia           |
+| MICHAEL           | wang             |
+| SARAH             | robinson         |
+| WILLIAM           | jones            |
+| DAVID             | lee              |
++-------------------+------------------+
+8 rows in set (0.00 sec)
+
+
+m) LEFT
+n) RIGHT
+
+mysql> SELECT LEFT(first_name, 3), right(last_name, 4) FROM Student WHERE id > 4;
++---------------------+---------------------+
+| LEFT(first_name, 3) | right(last_name, 4) |
++---------------------+---------------------+
+| Mic                 | Wang                |
+| Sar                 | nson                |
+| Wil                 | ones                |
+| Dav                 | Lee                 |
++---------------------+---------------------+
+4 rows in set (0.00 sec)
+
+
+o) LENGTH
+
+mysql> SELECT LENGTH(first_name) FROM Student WHERE id > 4;
++--------------------+
+| LENGTH(first_name) |
++--------------------+
+|                  7 |
+|                  5 |
+|                  7 |
+|                  5 |
++--------------------+
+4 rows in set (0.00 sec)
+
+
+p) LOCATE
+
+mysql> SELECT LOCATE('@', email) FROM Student WHERE id = 1;
++--------------------+
+| LOCATE('@', email) |
++--------------------+
+|                  9 |
++--------------------+
+1 row in set (0.00 sec)
+
+q) LPAD
+r) RPAD
+
+mysql> select lpad(roll_number, 7, '10') as LPAD, rpad(id,3,'01') RPAD from Student;
++---------+------+
+| LPAD    | RPAD |
++---------+------+
+| 1012345 | 101  |
+| 1054321 | 201  |
+| 1098765 | 301  |
+| 1033221 | 401  |
+| 1065432 | 501  |
+| 1089012 | 601  |
+| 1024680 | 701  |
+| 1077777 | 801  |
++---------+------+
+8 rows in set (0.00 sec)
+
+
+s) LTRIM
+t) RRIM
+
+mysql> SELECT LTRIM(first_name), RTRIM(last_name) FROM Student WHERE id > 5;
++-------------------+------------------+
+| LTRIM(first_name) | RTRIM(last_name) |
++-------------------+------------------+
+| Sarah             | Robinson         |
+| William           | Jones            |
+| David             | Lee              |
++-------------------+------------------+
+3 rows in set (0.00 sec)
+
+
+u) MID
+mysql> SELECT MID(email, 1, 5) FROM Student WHERE id = 1;
++------------------+
+| MID(email, 1, 5) |
++------------------+
+| john.            |
++------------------+
+1 row in set (0.00 sec)
+
+
+v) REPEAT
+mysql> SELECT REPEAT('-', 10) FROM Student WHERE id = 1;
++-----------------+
+| REPEAT('-', 10) |
++-----------------+
+| ----------      |
++-----------------+
+1 row in set (0.00 sec)
+
+
+w) REPLACE
+mysql> SELECT REPLACE(email, '.', '-') FROM Student WHERE id = 1;
++--------------------------+
+| REPLACE(email, '.', '-') |
++--------------------------+
+| john-doe@example-com     |
++--------------------------+
+1 row in set (0.00 sec)
+
+x) REVERSE
+mysql> SELECT REVERSE(first_name) FROM Student WHERE id = 1;
++---------------------+
+| REVERSE(first_name) |
++---------------------+
+| nhoJ                |
++---------------------+
+1 row in set (0.00 sec)
+
+y) mysql> SELECT TRIM(first_name) FROM Student WHERE id < 5;
++------------------+
+| TRIM(first_name) |
++------------------+
+| John             |
+| Jane             |
+| Alice            |
+| Emily            |
++------------------+
+4 rows in set (0.00 sec)

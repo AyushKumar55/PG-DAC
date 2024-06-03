@@ -1,0 +1,96 @@
+Assignment - 12
+
+Create a table employees as below:
++------+--------+------------+--------+
+| eid | name | experience | salary |
++------+--------+------------+--------+
+| 101 | Vijay | 12| 56000 |
+| 103 | Rani  | 0 | 14000 |
+| 104 | Ramesh| 6 | 45000 |
+| 105 | Anil  | 5 | 34600 |
+| 107 | Akash | 14| 67800 |
+| 108 | Priya | 7 | 60000 |
++------+--------+------------+--------+
+Create a cursor to copy the data from this table to another table named emp with
+contains eid, name and salary only. The salary copied should be like 56K, 14K, 45K
+34K onwards. The names on employees copied should be in upper case only.
+
+
+mysql> create database employee;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use employee;
+Database changed
+
+mysql> CREATE TABLE employees ( eid INT PRIMARY KEY, name VARCHAR(100), experience tinyint, salary int);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into employees values(103, 'Rani', 0, 14000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employees values(104, 'Ramesh', 6, 45000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employees values(105, 'Anil', 5, 34600);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employees values(107, 'Akash', 14, 67800);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employees values(108, 'Priya', 7, 60000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employees;
++-----+--------+------------+--------+
+| eid | name   | experience | salary |
++-----+--------+------------+--------+
+| 101 | Vijay  |         12 |  56000 |
+| 103 | Rani   |          0 |  14000 |
+| 104 | Ramesh |          6 |  45000 |
+| 105 | Anil   |          5 |  34600 |
+| 107 | Akash  |         14 |  67800 |
+| 108 | Priya  |          7 |  60000 |
++-----+--------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> CREATE TABLE backupEmployees ( eid INT PRIMARY KEY, name VARCHAR(100), salary varchar(20));
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter &&
+mysql> create procedure copyTable()
+    -> begin
+    -> declare done int default 0;
+    -> declare v_eid int;
+    -> declare v_name varchar(100);
+    -> declare v_salary varchar(20);
+    -> declare cur CURSOR for select eid, name, salary from employees;
+    -> declare continue handler for not found set done = 1;
+    -> open cur;
+    -> copy:loop
+    -> fetch cur into v_eid, v_name, v_salary;
+    -> if done = 1 then leave copy;
+    -> end if;
+    -> insert into backupEmployees values (v_eid, upper(v_name), concat(floor(v_salary/1000),'K'));
+    -> end loop;
+    -> close cur;
+    -> END &&
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+
+mysql> call copyTable();
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from backupEmployees;
++-----+--------+--------+
+| eid | name   | salary |
++-----+--------+--------+
+| 101 | VIJAY  | 56K    |
+| 103 | RANI   | 14K    |
+| 104 | RAMESH | 45K    |
+| 105 | ANIL   | 34K    |
+| 107 | AKASH  | 67K    |
+| 108 | PRIYA  | 60K    |
++-----+--------+--------+
+6 rows in set (0.01 sec)

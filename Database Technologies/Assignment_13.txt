@@ -1,0 +1,151 @@
+Assignment No. 13
+
+Create a table product as below:
++------+------------+-------+
+| type | name 	    | cost  |
++------+------------+-------+
+| FUR  | Chair 	    | 1500  | 
+| FUR  | Cupboard   | 15000 |
+| ELE  | Mobile     | 25000 |
+| FUR  | Table      | 6500  |
+| ELE  | Television | 18500 |
+| STA  | Notebook   | 45    |
++------+------------+-------+
+Create following triggers:
+
+1. If the data entry has made for a negative cost then make is positive and insert
+it.
+
+mysql> DELIMITER $$
+mysql> CREATE TRIGGER ensure_positive_cost
+    -> BEFORE INSERT ON product
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.cost <= 0 THEN
+    ->         SET NEW.cost = ABS(NEW.cost);
+    ->     END IF;
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+
+
+2. Make a backup of the data every time user enters new information in the
+table.
+
+CREATE TABLE backup (
+    type VARCHAR(255),
+    name VARCHAR(255),
+    cost INT
+);
+
+DELIMITER &&
+CREATE TRIGGER BACKUP
+AFTER INSERT ON product 
+FOR EACH ROW
+BEGIN
+	INSERT INTO backup VALUES (new.type, new.name, new.cost);
+END &&
+DELIMITER ;
+
+
+mysql> INSERT INTO product (type, name, cost) VALUES ('STA', 'Stapler', -40);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO product (type, name, cost) VALUES ('BRU', 'Brush', -45); 
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from product;
++------+------------+-------+
+| type | name       | cost  |
++------+------------+-------+
+| FUR  | Chair      |  1500 |
+| FUR  | Cupboard   | 15000 |
+| ELE  | Mobile     | 25000 |
+| FUR  | Table      |  6500 |
+| ELE  | Television | 18500 |
+| STA  | Notebook   |    45 |
+| BRU  | Brush      |    45 |
+| STA  | Stapler    |    40 |
++------+------------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select * from backup;
++------+---------+------+
+| type | name    | cost |
++------+---------+------+
+| STA  | Stapler |   40 |
+| BRU  | Brush   |   45 |
++------+---------+------+
+3 rows in set (0.00 sec)
+
+
+3. Create a log file when user makes the changes in the cost of the product,
+record it.
+
+create table ProductCostChangeLog(
+OldCost DECIMAL(10,2),
+NewCost DECIMAL(10,2),
+ChangeDate DATETIME)
+);
+
+mysql> DELIMITER &&
+mysql> Create trigger createlog
+    -> after update on product
+    -> for each row 
+    -> begin
+    -> INSERT INTO ProductCostChangeLog values (old.cost, new.cost, now()); 
+    -> end &&
+    -> delimiter ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> update product set cost = 240 where type = 'ELE';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 2  Changed: 1  Warnings: 0
+
+mysql> select * from ProductCostChangeLog;
++----------+---------+---------------------+
+| OldCost  | NewCost | ChangeDate          |
++----------+---------+---------------------+
+|   240.00 |  240.00 | 2024-05-01 07:32:53 |
+| 18500.00 |  240.00 | 2024-05-01 07:32:53 |
++----------+---------+---------------------+
+2 rows in set (0.00 sec)
+
+4. After deleting any entry from table, create a variable that contains the type of
+product which has recently deleted.
+
+DELIMITER &&
+Create trigger del
+after delete on product
+for each row
+begin
+set @delType = concat("Deleted Product: ",old.type);
+end &&
+delimiter ;
+
+mysql> select * from product;
++------+------------+-------+
+| type | name       | cost  |
++------+------------+-------+
+| FUR  | Chair      |  1500 |
+| FUR  | Cupboard   | 15000 |
+| ELE  | Mobile     |   240 |
+| FUR  | Table      |  6500 |
+| ELE  | Television |   240 |
+| STA  | Notebook   |    45 |
+| BRU  | Brush      |    45 |
+| STA  | Stapler    |    40 |
++------+------------+-------+
+8 rows in set (0.01 sec)
+
+mysql> delete from product where type = 'BRU';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @delType;
++----------------------+
+| @delType             |
++----------------------+
+| Deleted Product: BRU |
++----------------------+
+1 row in set (0.00 sec)

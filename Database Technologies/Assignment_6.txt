@@ -1,0 +1,687 @@
+Assignment - 6
+
+Sample Table – Worker
+WORKER_ID FIRST_NAME LAST_NAME SALARY JOINING_DATE DEPARTMENT
+001 Monika Arora 100000 2014-02-20 09:00:00 HR
+002 Niharika Verma 80000 2014-06-11 09:00:00 Admin
+003 Vishal Singhal 300000 2014-02-20 09:00:00 HR
+004 Amitabh Singh 500000 2014-02-20 09:00:00 Admin
+005 Vivek Bhati 500000 2014-06-11 09:00:00 Admin
+006 Vipul Diwan 200000 2014-06-11 09:00:00 Account
+007 Satish Kumar 75000 2014-01-20 09:00:00 Account
+008 Geetika Chauhan 90000 2014-04-11 09:00:00 Admin
+
+Sample Table – Bonus
+WORKER_REF_ID BONUS_DATE BONUS_AMOUNT
+1 2016-02-20 00:00:00 5000
+2 2016-06-11 00:00:00 3000
+3 2016-02-20 00:00:00 4000
+1 2016-02-20 00:00:00 4500
+2 2016-06-11 00:00:00 3500
+
+Sample Table – Title
+WORKER_REF_ID WORKER_TITLE AFFECTED_FROM
+1 Manager 2016-02-20 00:00:00
+2 Executive 2016-06-11 00:00:00
+8 Executive 2016-06-11 00:00:00
+5 Manager 2016-06-11 00:00:00
+4 Asst. Manager 2016-06-11 00:00:00
+7 Executive 2016-06-11 00:00:00
+6 Lead 2016-06-11 00:00:00
+3 Lead 2016-06-11 00:00:00
+
+
+mysql> create database Assign6;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use Assign6;
+Database changed
+
+mysql> create table Worker
+    -> (worker_id int primary key,
+    -> First_name varchar(20),
+    -> Last_name varchar(20),
+    -> salary int,
+    -> joining_date datetime,
+    -> department varchar(10));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table Bonus
+    -> (worker_ref_id int,
+    -> bonus_date datetime,
+    -> bonus_amount int);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table Title
+    -> (worker_ref_id int,
+    -> worker_title varchar(20),
+    -> affected_from datetime);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into Worker values (001,'Monika','Arora', 100000, '2014-02-20 09:00:00', 'HR'), (002, 'Niharika' ,'Verma', 80000,'2014-06-11 09:00:00','Admin'), (003 ,'Vishal' ,'Singhal' ,300000 ,'2014-02-20 09:00:00' ,'HR'), (004, 'Amitabh', 'Singh', 500000 ,'2014-02-20 09:00:00', 'Admin'), (005 ,'Vivek' ,'Bhati' ,500000,'2014-06-11 09:00:00' ,'Admin'), (006, 'Vipul', 'Diwan', 200000, '2014-06-11 09:00:00', 'Account'), (007,'Satish' ,'Kumar' ,75000 ,'2014-01-20 09:00:00' ,'Account'), (008, 'Geetika', 'Chauhan', 90000, '2014-04-11 09:00:00', 'Admin');
+Query OK, 8 rows affected (0.02 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select * from Worker;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+8 rows in set (0.00 sec)
+
+mysql> insert into Bonus values (1, '2016-02-20 00:00:00', 5000),
+    -> (2 ,'2016-06-11 00:00:00' ,3000),
+    -> (3, '2016-02-20 00:00:00', 4000),
+    -> (1 ,'2016-02-20 00:00:00' ,4500),
+    -> (2, '2016-06-11 00:00:00', 3500);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from Bonus;
++---------------+---------------------+--------------+
+| worker_ref_id | bonus_date          | bonus_amount |
++---------------+---------------------+--------------+
+|             1 | 2016-02-20 00:00:00 |         5000 |
+|             2 | 2016-06-11 00:00:00 |         3000 |
+|             3 | 2016-02-20 00:00:00 |         4000 |
+|             1 | 2016-02-20 00:00:00 |         5000 |
+|             2 | 2016-06-11 00:00:00 |         3000 |
+|             3 | 2016-02-20 00:00:00 |         4000 |
+|             1 | 2016-02-20 00:00:00 |         4500 |
+|             2 | 2016-06-11 00:00:00 |         3500 |
++---------------+---------------------+--------------+
+8 rows in set (0.00 sec)
+
+mysql> insert into Title values (1, 'Manager', '2016-02-20 00:00:00'),
+    -> (2 ,'Executive' ,'2016-06-11 00:00:00'),
+    -> (8, 'Executive', '2016-06-11 00:00:00'),
+    -> (5 ,'Manager' ,'2016-06-11 00:00:00'),
+    -> (4, 'Asst. Manager', '2016-06-11 00:00:00'),
+    -> (7 ,'Executive' ,'2016-06-11 00:00:00'),
+    -> (6, 'Lead', '2016-06-11 00:00:00'),
+    -> (3 ,'Lead' ,'2016-06-11 00:00:00');
+Query OK, 8 rows affected (0.00 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select * from Title;
++---------------+---------------+---------------------+
+| worker_ref_id | worker_title  | affected_from       |
++---------------+---------------+---------------------+
+|             1 | Manager       | 2016-02-20 00:00:00 |
+|             2 | Executive     | 2016-06-11 00:00:00 |
+|             8 | Executive     | 2016-06-11 00:00:00 |
+|             5 | Manager       | 2016-06-11 00:00:00 |
+|             4 | Asst. Manager | 2016-06-11 00:00:00 |
+|             7 | Executive     | 2016-06-11 00:00:00 |
+|             6 | Lead          | 2016-06-11 00:00:00 |
+|             3 | Lead          | 2016-06-11 00:00:00 |
++---------------+---------------+---------------------+
+8 rows in set (0.00 sec)
+
+1. Write an SQL query to fetch “FIRST_NAME” from the Worker table using the
+alias name <WORKER_NAME>.
+
+mysql> select First_Name as Worker_Name from Worker;
++-------------+
+| Worker_Name |
++-------------+
+| Monika      |
+| Niharika    |
+| Vishal      |
+| Amitabh     |
+| Vivek       |
+| Vipul       |
+| Satish      |
+| Geetika     |
++-------------+
+8 rows in set (0.00 sec)
+
+2. Write an SQL query to fetch “FIRST_NAME” from the Worker table in upper
+case.
+
+mysql> select UPPER(First_Name) from Worker;
++-------------------+
+| UPPER(First_Name) |
++-------------------+
+| MONIKA            |
+| NIHARIKA          |
+| VISHAL            |
+| AMITABH           |
+| VIVEK             |
+| VIPUL             |
+| SATISH            |
+| GEETIKA           |
++-------------------+
+8 rows in set (0.00 sec)
+
+3. Write an SQL query to fetch unique values of DEPARTMENT from the Worker
+table.
+
+mysql> select distinct department from Worker;
++------------+
+| department |
++------------+
+| HR         |
+| Admin      |
+| Account    |
++------------+
+3 rows in set (0.00 sec)
+
+4. Write an SQL query to print the first three characters of FIRST_NAME from the
+Worker table.
+
+mysql> select Left(First_Name,3) from Worker;
++--------------------+
+| Left(First_Name,3) |
++--------------------+
+| Mon                |
+| Nih                |
+| Vis                |
+| Ami                |
+| Viv                |
+| Vip                |
+| Sat                |
+| Gee                |
++--------------------+
+8 rows in set (0.00 sec)
+
+5. Write an SQL query to find the position of the alphabet (‘a’) in the first name
+column ‘Amitabh’ from the Worker table.
+
+mysql> select LOCATE('a',First_Name) AS Located_A from Worker where First_Name = "Amitabh";
++-----------+
+| Located_A |
++-----------+
+|         1 |
++-----------+
+1 row in set (0.00 sec)
+
+6. Write an SQL query to print all Worker details from the Worker table order by
+FIRST_NAME Ascending.
+
+mysql> select * from Worker order by First_Name;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+8 rows in set (0.00 sec)
+
+7. Write an SQL query to print all Worker details from the Worker table order by
+FIRST_NAME Ascending and DEPARTMENT Descending.
+
+mysql> select * from Worker order by First_Name, department desc;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+8 rows in set (0.00 sec)
+
+8. Write an SQL query to print details for Workers with the first names “Vipul” and
+“Satish” from the Worker table.
+
+mysql> select * from Worker where First_Name = "Vipul" OR First_Name = "Satish";
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
++-----------+------------+-----------+--------+---------------------+------------+
+2 rows in set (0.00 sec)
+
+9. Write an SQL query to print details of workers excluding first names, “Vipul” and
+“Satish” from the Worker table.
+
+mysql> select * from Worker where First_Name != "Vipul" AND First_Name != "Satish";
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+6 rows in set (0.00 sec)
+
+10. Write an SQL query to print details of Workers with DEPARTMENT name as
+“Admin”.
+
+mysql> select * from Worker where department = 'Admin';
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+4 rows in set (0.00 sec)
+
+11. Write an SQL query to print details of the Workers whose FIRST_NAME contains
+‘a’.
+
+mysql> select * from Worker where First_name like '%a%';
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+6 rows in set (0.00 sec)
+
+12. Write an SQL query to print names of the Workers whose FIRST_NAME ends
+with ‘a’.
+
+mysql> select * from Worker where First_name like '%a';
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+3 rows in set (0.00 sec)
+
+13. Write an SQL query to print details of the Workers whose FIRST_NAME ends
+with ‘h’ and contains six alphabets.
+
+mysql> select * from Worker where First_name like '_____h';
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
++-----------+------------+-----------+--------+---------------------+------------+
+1 row in set (0.00 sec)
+
+14. Write an SQL query to print details of the Workers whose SALARY lies between
+100000 and 500000.
+
+mysql> select * from Worker where salary between 100000 and 500000;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
++-----------+------------+-----------+--------+---------------------+------------+
+5 rows in set (0.01 sec)
+
+15. Write an SQL query to print details of the Workers who joined in Feb’2014.
+
+mysql> select * from Worker where joining_date > '2014-01-31' and joining_date < '2014-03-01';
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+3 rows in set (0.00 sec)
+
+16. Write an SQL query to fetch the count of employees working in the department
+‘Admin’.
+
+mysql> select count(department) as count_Admins from Worker where department = 'Admin';
++--------------+
+| count_Admins |
++--------------+
+|            4 |
++--------------+
+1 row in set (0.00 sec)
+
+17. Write an SQL query to fetch worker names with salaries >= 50000 and <=
+100000.
+
+mysql> select First_Name, Last_Name from Worker where salary>=50000 and salary<=100000;
++------------+-----------+
+| First_Name | Last_Name |
++------------+-----------+
+| Monika     | Arora     |
+| Niharika   | Verma     |
+| Satish     | Kumar     |
+| Geetika    | Chauhan   |
++------------+-----------+
+4 rows in set (0.00 sec)
+
+18. Write an SQL query to fetch the no. of workers for each department in
+descending order.
+
+mysql> select department, count(department) as count_Employees from Worker group by department order by dep
+artment desc;
++------------+-----------------+
+| department | count_Employees |
++------------+-----------------+
+| HR         |               2 |
+| Admin      |               4 |
+| Account    |               2 |
++------------+-----------------+
+3 rows in set (0.00 sec)
+
+19. Write an SQL query to print details of the Workers who are also Managers.
+
+mysql> select a.worker_id, a.First_name, a.Last_name, b.worker_title from Worker as a join Title as b on a.worker_id = b.worker_ref_id where b.worker_title = 'Manager';
++-----------+------------+-----------+--------------+
+| worker_id | First_name | Last_name | worker_title |
++-----------+------------+-----------+--------------+
+|         1 | Monika     | Arora     | Manager      |
+|         5 | Vivek      | Bhati     | Manager      |
++-----------+------------+-----------+--------------+
+2 rows in set (0.00 sec)
+
+20. Write an SQL query to fetch duplicate records having matching data in some
+fields of a table.
+
+mysql> select a.First_name, a.salary, a.department from Worker a, Worker b where a.salary = b.salary AND a.worker_id != b.worker_id AND 
+a.First_name != b.First_name AND a.department = b.department;
++------------+--------+------------+
+| First_name | salary | department |
++------------+--------+------------+
+| Vivek      | 500000 | Admin      |
+| Amitabh    | 500000 | Admin      |
++------------+--------+------------+
+
+
+21. Write an SQL query to show only odd rows from a table.
+
+mysql> select * from Worker where worker_id % 2 != 0;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
++-----------+------------+-----------+--------+---------------------+------------+
+4 rows in set (0.00 sec)
+
+22. Write an SQL query to show only even rows from a table.
+
+mysql> select * from Worker where worker_id % 2 = 0;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+4 rows in set (0.00 sec)
+
+23. Write an SQL query to clone a new table from another table.
+
+mysql> create table copyWorker select * from Worker;
+Query OK, 8 rows affected (0.02 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select * from copyWorker;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+8 rows in set (0.00 sec)
+
+24. Write an SQL query to fetch intersecting records of previous two tables.
+
+mysql> select * from evenWorker_ids;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from oddWorker_ids;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
++-----------+------------+-----------+--------+---------------------+------------+
+4 rows in set (0.00 sec)
+
+Using inner join:
+
+mysql> select a.worker_id, a.First_name, a.salary, b.worker_id, b.First_name from evenWorker_ids a join oddWorker_ids b on a.salary=b.salary;
++-----------+------------+--------+-----------+------------+
+| worker_id | First_name | salary | worker_id | First_name |
++-----------+------------+--------+-----------+------------+
+|         4 | Amitabh    | 500000 |         5 | Vivek      |
++-----------+------------+--------+-----------+------------+
+1 row in set (0.00 sec)
+
+Uisng intersect keyword:
+
+mysql> select a.worker_id, a.First_name, a.salary,b.worker_id, b.First_name from evenWorker_ids a Left join oddWorker_ids b on a.salary=b.salary intersect select a.worker_id, a.First_name, a.salary, b.worker_id, b.First_name from evenWorker_ids a right join oddWorker_ids b on a.salary=b.salary;
++-----------+------------+--------+-----------+------------+
+| worker_id | First_name | salary | worker_id | First_name |
++-----------+------------+--------+-----------+------------+
+|         4 | Amitabh    | 500000 |         5 | Vivek      |
++-----------+------------+--------+-----------+------------+
+1 row in set (0.00 sec)
+
+25. Write an SQL query to show records from one table that another table does not
+have.
+
+mysql> select * from evenWorker_ids;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from copyWorker where worker_id not in (select worker_id from evenWorker_ids);
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
++-----------+------------+-----------+--------+---------------------+------------+
+4 rows in set (0.00 sec)
+
+26. Write an SQL query to show the top n (say 10) records of a table.
+
+mysql> select * from Worker limit 5;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+5 rows in set (0.00 sec)
+
+27. Write an SQL query to fetch the list of employees with the same salary.
+
+mysql> select a.first_name, a.Last_name, a.salary from Worker as a join Worker as b on a.salary = b.salary and a.worker_id != b.worker_id;
++------------+-----------+--------+
+| first_name | Last_name | salary |
++------------+-----------+--------+
+| Vivek      | Bhati     | 500000 |
+| Amitabh    | Singh     | 500000 |
++------------+-----------+--------+
+2 rows in set (0.00 sec)
+
+28. Write an SQL query to show the second-highest salary from a table.
+
+mysql> select max(salary) from Worker where salary < (select max(salary) from Worker);
++-------------+
+| max(salary) |
++-------------+
+|      300000 |
++-------------+
+1 row in set (0.00 sec)
+
+29. Write an SQL query to fetch intersecting records of two tables.
+Same as Q.24.
+
+
+30. Write an SQL query to fetch the first 50% of records from a table.
+
+select TOP 50 PERCENT * FROM Worker;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_name | Last_name | salary | joining_date        | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+4 rows in set (0.00 sec)
+
+31. Write an SQL query to fetch the departments that have less than five people in them.
+
+mysql> select department from Worker group by department having count(*)<5;
++------------+
+| department |
++------------+
+| HR         |
+| Admin      |
+| Account    |
++------------+
+3 rows in set (0.01 sec)
+
+32. Write an SQL query to show all departments along with the number of people in there.
+
+mysql> select department, count(department) as People_count from Worker group by department;
++------------+--------------+
+| department | People_count |
++------------+--------------+
+| HR         |            2 |
+| Admin      |            4 |
+| Account    |            2 |
++------------+--------------+
+3 rows in set (0.00 sec)
+
+33. Write an SQL query to show the last record from a table.
+
+mysql> select * from Worker order by worker_id desc limit 1;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_Name | Last_Name | salary | joininng_date       | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+1 row in set (0.00 sec)
+
+34. Write an SQL query to fetch the first row of a table.
+
+mysql> select * from Worker limit 1;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_Name | Last_Name | salary | joininng_date       | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
++-----------+------------+-----------+--------+---------------------+------------+
+1 row in set (0.00 sec)
+
+35. Write an SQL query to fetch the last five records from a table.
+
+mysql> (select * from Worker order by worker_id desc limit 5) order by worker_id asc;
++-----------+------------+-----------+--------+---------------------+------------+
+| worker_id | First_Name | Last_Name | salary | joininng_date       | department |
++-----------+------------+-----------+--------+---------------------+------------+
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+5 rows in set (0.00 sec)
+
+36. Write an SQL query to print the name of employees having the highest salary in each department.
+
+mysql> select a.First_Name, a.Last_Name, a.salary, a.department from Worker a where a.salary in (Select max(salary) from Worker group by department);
++------------+-----------+--------+------------+
+| First_Name | Last_Name | salary | department |
++------------+-----------+--------+------------+
+| Vishal     | Singhal   | 300000 | HR         |
+| Amitabh    | Singh     | 500000 | Admin      |
+| Vivek      | Bhati     | 500000 | Admin      |
+| Vipul      | Diwan     | 200000 | Account    |
++------------+-----------+--------+------------+
+4 rows in set (0.00 sec)
+
+37. Write an SQL query to fetch three max salaries from a table.
+
+mysql> select max(salary) as max_salaries from Worker group by department order by max(salary) desc;
++--------------+
+| max_salaries |
++--------------+
+|       500000 |
+|       300000 |
+|       200000 |
++--------------+
+3 rows in set (0.00 sec)
+
+38. Write an SQL query to fetch departments along with the total salaries paid for each of them.
+
+mysql> select sum(salary) as Total_Salary_Per_Dept, department from Worker group by department order by sum(salary) desc;
++-----------------------+------------+
+| Total_Salary_Per_Dept | department |
++-----------------------+------------+
+|               1170000 | Admin      |
+|                400000 | HR         |
+|                275000 | Account    |
++-----------------------+------------+
+3 rows in set (0.00 sec)
+
+39. Write an SQL query to fetch the names of workers who earn the highest salary.
+
+mysql> select a.First_Name, a.Last_Name, a.salary, a.department from Worker a where a.salary in (Select max(salary) from Worker);
++------------+-----------+--------+------------+
+| First_Name | Last_Name | salary | department |
++------------+-----------+--------+------------+
+| Amitabh    | Singh     | 500000 | Admin      |
+| Vivek      | Bhati     | 500000 | Admin      |
++------------+-----------+--------+------------+
+2 rows in set (0.00 sec)

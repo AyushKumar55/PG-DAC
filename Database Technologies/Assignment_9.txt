@@ -1,0 +1,240 @@
+Create a database named college
+Create a table name student in college database with following structure
+roll,name,class,marks,age with respective datatypes.
+Insert at least 7 entries in it.
+
+mysql> create database college;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use college;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> CREATE TABLE student (
+    ->   roll INT NOT NULL PRIMARY KEY,
+    ->   name VARCHAR(50) NOT NULL,
+    ->   class VARCHAR(10) NOT NULL,
+    ->   marks INT,
+    ->   age INT
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> INSERT INTO student (roll, name, class, marks, age)
+    -> VALUES (1, 'Alice Smith', '7th A', 85, 13),
+    ->        (2, 'Bob Johnson', '8th B', 92, 14),
+    ->        (3, 'Charlie Williams', '9th C', 78, 15),
+    ->        (4, 'David Brown', '10th A', 90, 16),
+    ->        (5, 'Emily Jones', '6th B', 82, 12),
+    ->        (6, 'Michael Garcia', '8th A', 88, 14),
+    ->        (7, 'Sarah Lee', '9th B', 95, 15);
+Query OK, 7 rows affected (0.02 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++------+------------------+--------+-------+------+
+| roll | name             | class  | marks | age  |
++------+------------------+--------+-------+------+
+|    1 | Alice Smith      | 7th A  |    85 |   13 |
+|    2 | Bob Johnson      | 8th B  |    92 |   14 |
+|    3 | Charlie Williams | 9th C  |    78 |   15 |
+|    4 | David Brown      | 10th A |    90 |   16 |
+|    5 | Emily Jones      | 6th B  |    82 |   12 |
+|    6 | Michael Garcia   | 8th A  |    88 |   14 |
+|    7 | Sarah Lee        | 9th B  |    95 |   15 |
++------+------------------+--------+-------+------+
+7 rows in set (0.00 sec)
+
+1) Create a new column which states that where the students got first class or not?
+
+mysql> alter table student add column first_class varchar(10);
+Query OK, 7 rows affected (0.02 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++------+------------------+--------+-------+------+-------------+
+| roll | name             | class  | marks | age  | first_class |
++------+------------------+--------+-------+------+-------------+
+|    1 | Alice Smith      | 7th A  |    85 |   13 | NULL        |
+|    2 | Bob Johnson      | 8th B  |    92 |   14 | NULL        |
+|    3 | Charlie Williams | 9th C  |    78 |   15 | NULL        |
+|    4 | David Brown      | 10th A |    90 |   16 | NULL        |
+|    5 | Emily Jones      | 6th B  |    82 |   12 | NULL        |
+|    6 | Michael Garcia   | 8th A  |    88 |   14 | NULL        |
+|    7 | Sarah Lee        | 9th B  |    95 |   15 | NULL        |
++------+------------------+--------+-------+------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> update student set first_class = IF(marks>85, 'YES', 'NO');
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 7  Changed: 3  Warnings: 0
+
+mysql> select * from student;
++------+------------------+--------+-------+------+-------------+
+| roll | name             | class  | marks | age  | first_class |
++------+------------------+--------+-------+------+-------------+
+|    1 | Alice Smith      | 7th A  |    85 |   13 | NO          |
+|    2 | Bob Johnson      | 8th B  |    92 |   14 | YES         |
+|    3 | Charlie Williams | 9th C  |    78 |   15 | NO          |
+|    4 | David Brown      | 10th A |    90 |   16 | YES         |
+|    5 | Emily Jones      | 6th B  |    82 |   12 | NO          |
+|    6 | Michael Garcia   | 8th A  |    88 |   14 | YES         |
+|    7 | Sarah Lee        | 9th B  |    95 |   15 | YES         |
++------+------------------+--------+-------+------+-------------+
+7 rows in set (0.00 sec)
+
+
+2) Create a new column which states that grade of the students:
+1) > 75: A+ grade
+2) > 60: A grade
+3) > 55: B+ grade
+4) > 50: B grade
+5) > 40: C grade
+6) < 40: D grade
+
+mysql> update student set grade = 
+    -> CASE
+    -> WHEN(marks>75) then 'A+'
+    -> WHEN(marks>60) then 'A'
+    -> WHEN(marks>55) then 'B+'
+    -> WHEN(marks>50) then 'B'
+    -> WHEN(marks>40) then 'C'
+    -> WHEN(marks<40) then 'D'
+    -> END;
+    
+mysql> select * from student;
++------+------------------+--------+-------+------+-------------+-------+
+| roll | name             | class  | marks | age  | first_class | grade |
++------+------------------+--------+-------+------+-------------+-------+
+|    1 | Alice Smith      | 7th A  |    35 |   13 | NO          | D     |
+|    2 | Bob Johnson      | 8th B  |    62 |   14 | YES         | A     |
+|    3 | Charlie Williams | 9th C  |    78 |   15 | NO          | A+    |
+|    4 | David Brown      | 10th A |    60 |   16 | YES         | B+    |
+|    5 | Emily Jones      | 6th B  |    32 |   12 | NO          | D     |
+|    6 | Michael Garcia   | 8th A  |    38 |   14 | YES         | D     |
+|    7 | Sarah Lee        | 9th B  |    65 |   15 | YES         | A     |
++------+------------------+--------+-------+------+-------------+-------+
+7 rows in set (0.00 sec)
+
+3) Create a procedure to find addition of first 10 natural numbers.
+
+
+delimiter &&
+create procedure sum_10()
+begin
+
+declare i int default 1;
+declare result int default 0;
+
+sum_10_no:loop
+sql> delimiter ;
+set result = result + i;
+set i = i + 1;
+		
+if(i>10) then
+leave sum_10_no;
+end if;
+		
+iterate sum_10_no;
+end loop;
+
+select result;
+
+end &&
+delimiter ;
+
+mysql> call sum_10();
++--------+
+| result |
++--------+
+|     55 |
++--------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+4) Create a procedure to enter a parameter and check where that is even
+number or odd number or neither of them.
+
+delimiter &&
+create procedure oddEvens(in num int, out result varchar(20))
+begin
+
+if (num=0) then 
+set result = 'ZEROOOOOOOOO';
+elseif(num%2=0) then 
+set result = 'EVEN';
+else set result = 'ODD';
+END if;
+select result;
+
+END&&
+delimiter ;
+
+mysql> call oddEvens(0,@result);
++--------------+
+| result       |
++--------------+
+| ZEROOOOOOOOO |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> call oddEvens(53,@result);
++--------+
+| result |
++--------+
+| ODD    |
++--------+
+1 row in set (0.00 sec)
+
+mysql> call oddEvens(4,@result);
++--------+
+| result |
++--------+
+| EVEN   |
++--------+
+1 row in set (0.00 sec)
+
+5) Write a procedure to pass marks as parameter and find the grade of the
+student according to marks:
+1) > 75: A+ grade
+2) > 60: A grade
+3) > 55: B+ grade
+4) > 50: B grade
+5) > 40: C grade
+6) < 40: D grade
+
+delimiter &&
+create procedure grades(in marks int, out result varchar(20))
+begin
+set result = CASE
+WHEN marks>75 then 'A+'
+WHEN marks>60 then 'A'
+WHEN marks>55 then 'B+'
+WHEN marks>50 then 'B'
+WHEN marks>40 then 'C'
+ELSE 'D'
+END;
+select result;
+end&&
+delimiter ;
+
+mysql> call grades(60,@result);
++--------+
+| result |
++--------+
+| B+     |
++--------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+
+
+
+
+

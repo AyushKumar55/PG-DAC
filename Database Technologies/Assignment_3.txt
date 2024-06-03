@@ -1,0 +1,160 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| CDACdbt            |
+| Collegedb          |
+| Collegetwo         |
+| LB1                |
+| cdacdb             |
+| college            |
+| college1           |
+| company            |
+| day7               |
+| ems                |
+| information_schema |
+| mysql              |
+| org                |
+| performance_schema |
+| pgdac              |
+| sys                |
++--------------------+
+16 rows in set (0.00 sec)
+
+mysql> create database college2;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use college2
+Database changed
+
+mysql> create table student (roll int, name varchar(20), class int, marks float, age int);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into student (roll,name,class,marks,age) values (1,'Biden',12,80,18);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student (roll,name,class,marks,age) values (2,'Trump',12,75,19);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student (roll,name,class,marks,age) values (3,'Merkel',10,85,18);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student (roll,name,class,marks,age) values (4,'Sunak',8,90,15);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student (roll,name,class,marks,age) values (5,'Indira',11,88,16);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_college2 |
++--------------------+
+| student            |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| roll  | int         | YES  |     | NULL    |       |
+| name  | varchar(20) | YES  |     | NULL    |       |
+| class | int         | YES  |     | NULL    |       |
+| marks | float       | YES  |     | NULL    |       |
+| age   | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_college2 |
++--------------------+
+| student            |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from student;
++------+--------+-------+-------+------+
+| roll | name   | class | marks | age  |
++------+--------+-------+-------+------+
+|    1 | Biden  |    12 |    80 |   18 |
+|    2 | Trump  |    12 |    75 |   19 |
+|    3 | Merkel |    10 |    85 |   18 |
+|    4 | Sunak  |     8 |    90 |   15 |
+|    5 | Indira |    11 |    88 |   16 |
++------+--------+-------+-------+------+
+5 rows in set (0.00 sec)
+
+mysql> delete from student where roll=4;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student;
++------+--------+-------+-------+------+
+| roll | name   | class | marks | age  |
++------+--------+-------+-------+------+
+|    1 | Biden  |    12 |    80 |   18 |
+|    2 | Trump  |    12 |    75 |   19 |
+|    3 | Merkel |    10 |    85 |   18 |
+|    5 | Indira |    11 |    88 |   16 |
++------+--------+-------+-------+------+
+4 rows in set (0.00 sec)
+
+mysql> update student set marks=90 where roll=3;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student;
++------+--------+-------+-------+------+
+| roll | name   | class | marks | age  |
++------+--------+-------+-------+------+
+|    1 | Biden  |    12 |    80 |   18 |
+|    2 | Trump  |    12 |    75 |   19 |
+|    3 | Merkel |    10 |    90 |   18 |
+|    5 | Indira |    11 |    88 |   16 |
++------+--------+-------+-------+------+
+4 rows in set (0.00 sec)
+
+mysql> update student set marks=marks+0.5;
+Query OK, 4 rows affected (0.01 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from student;
++------+--------+-------+-------+------+
+| roll | name   | class | marks | age  |
++------+--------+-------+-------+------+
+|    1 | Biden  |    12 |  80.5 |   18 |
+|    2 | Trump  |    12 |  75.5 |   19 |
+|    3 | Merkel |    10 |  90.5 |   18 |
+|    5 | Indira |    11 |  88.5 |   16 |
++------+--------+-------+-------+------+
+4 rows in set (0.00 sec)
+
+mysql> truncate table student;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from student;
+Empty set (0.00 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_college2 |
++--------------------+
+| student            |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into student values (1,'Biden',12,80,18),(2,'Trump',12,75,19),(3,'Merkel',10,90,18),(4,'Sunak',8,90,15),(5,'Indira',11,88,16);
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++------+--------+-------+-------+------+
+| roll | name   | class | marks | age  |
++------+--------+-------+-------+------+
+|    1 | Biden  |    12 |    80 |   18 |
+|    2 | Trump  |    12 |    75 |   19 |
+|    3 | Merkel |    10 |    90 |   18 |
+|    4 | Sunak  |     8 |    90 |   15 |
+|    5 | Indira |    11 |    88 |   16 |
++------+--------+-------+-------+------+
+5 rows in set (0.00 sec)

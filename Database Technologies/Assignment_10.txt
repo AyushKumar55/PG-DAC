@@ -1,0 +1,126 @@
+Assignment No. 10
+1) Write a procedure to find the factorial of the number.
+Hint: use only repeat loop
+
+delimiter &&
+create procedure factorials(in num int)
+begin
+	declare fact int default 1;
+	repeat
+	set fact = fact * num;
+	set num = num - 1;
+	until num = 0
+	end repeat;
+	select fact as factorial;
+end&&
+delimiter ;
+
+mysql> call factorials(7);
++-----------+
+| factorial |
++-----------+
+|      5040 |
++-----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+2) Create a procedure to find the sum of digits of the number passed as
+parameter to it.
+Hint: use while loop
+
+delimiter &&
+create procedure sum_of_digits(in num int)
+begin
+	declare sums int default 0;
+	while num > 0 do
+	set sums = sums + (num % 10);
+	set num = truncate(num / 10,0);
+	end while;
+	select sums as sum_of_digits;
+end&&
+delimiter ;
+
+mysql> call sum_of_digits(67);
++---------------+
+| sum_of_digits |
++---------------+
+|            13 |
++---------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+3) Write a procedure to print the Fibonacci sequence using any kind of the loop.
+e.g. 0, 1, 1, 2, 3, 5, 8....
+
+delimiter &&
+create procedure fibonacci(in num int)
+begin
+	declare a int default 0;
+	declare b int default 1;
+	declare c int default 0;
+	declare i int default 1;
+	declare result varchar(100) default ' ';
+	repeat
+	set result = concat(result,c,' ');
+	set a = b;
+	set b = c;
+	set c = a + b;
+	set i = i + 1;	
+	until i = num
+end repeat;
+select result as Fibonacci_Series;
+end&&
+delimiter ;
+
+mysql> call fibonacci(10);
++-----------------------+
+| Fibonacci_Series      |
++-----------------------+
+|  0 1 1 2 3 5 8 13 21  |
++-----------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+4) Write a procedure to print all the odd and even numbers separately using
+same procedure.
+
+delimiter &&
+create procedure AllOddEven(in num int)
+begin
+	declare odd int default 1;
+	declare even int default 2;
+	declare i  int default 0;	
+	declare oddNums varchar(100) default ' ';
+	declare evenNums varchar(100) default ' ';
+	repeat
+	set oddNums = concat(oddNums, odd, ' ');
+	set evenNums = concat(evenNums, even, ' ');
+	set odd = odd + 2;
+	set even = even + 2;
+	set i = i + 1;
+	until i = floor(num/2)
+end repeat;
+select oddNums as Odd_Numbers;
+select evenNums as Even_Numbers;
+end&&
+delimiter ;
+
+mysql> call AllOddEven(30);
++-------------------------------------------+
+| Odd_Numbers                               |
++-------------------------------------------+
+|  1 3 5 7 9 11 13 15 17 19 21 23 25 27 29  |
++-------------------------------------------+
+1 row in set (0.00 sec)
+
++--------------------------------------------+
+| Even_Numbers                               |
++--------------------------------------------+
+|  2 4 6 8 10 12 14 16 18 20 22 24 26 28 30  |
++--------------------------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
