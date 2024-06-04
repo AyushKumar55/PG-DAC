@@ -46,10 +46,8 @@ public class voterRegistration extends HttpServlet {
 			String pword = request.getParameter("pword");
 			Date dob  = Date.valueOf(request.getParameter("dob"));
 			
-			LocalDate birthdate = dob.toLocalDate();
-			
 			//4. Validating if age is greater or equal to 21 or above
-			if((LocalDate.now().getYear() - birthdate.getYear()) >= 21 ) {
+			if((LocalDate.now().getYear() - dob.toLocalDate().getYear()) >= 21 ) {
 				//5. Creating a new User Object
 				User newVoter = new User(fname,lname,email,pword,dob);
 				//6. Method is called with new user as the parameter 
