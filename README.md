@@ -9,6 +9,7 @@ Technologies that I have covered so far:-
 # Git & DevOps
 # HTML, CSS & JS
 # MERN STACK
+# Advanced Java
 
 Hope you might find the content useful! <br>
 You may use these resources for practice and reference!
