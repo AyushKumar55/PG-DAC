@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q21</title>
+</head>
+<body>
+    <h3>Members of my Group are </h3>
+    <ol id="list"></ol>
+    <script>
+        var names = ['Ayush','Yassar','Anni Bhai','Ashley','Sourav']
+        for(let name of names){
+            document.getElementById('list').innerHTML += '<li>' + name + '</li>';
+        }
+    </script>
+</body>
+</html>

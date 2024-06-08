@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q3</title>
+</head>
+<body>
+    <button type="button" name="btn" id="btn" onclick="evenNo()">Click Here for Even Numbers</button>
+    <div id="div1">
+    </div>
+    <script>
+        function evenNo(){
+            var num = prompt("Enter a number");
+            var i  = 1;
+            document.getElementById("div1").innerHTML="Even Numbers less than or equal to "+num+"<br>"
+            while(i<=num){
+                if(i%2 === 0){
+                    document.getElementById("div1").innerHTML+=i+"<br>";
+                }
+                i++;
+            }
+        }
+    </script>
+</body>
+</html>

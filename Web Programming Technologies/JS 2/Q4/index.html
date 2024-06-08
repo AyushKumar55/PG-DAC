@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q4</title>
+</head>
+<body>
+    <div id="div1">
+        
+    </div>
+    <script>
+        function calc(){
+            var num1 = parseInt(prompt("Enter 1st number"));
+            var num2 = parseInt(prompt("Enter 2nd number"));
+            var op = prompt("Enter the opeartor");
+            switch(op){
+                case "+":
+                    document.getElementById("div1").innerHTML = `Sum: ${num1 + num2}`;
+                    break;
+                
+                case "-":
+                    document.getElementById("div1").innerHTML = `Difference: ${num1 - num2}`;
+                    break;
+
+                case "/":
+                    document.getElementById("div1").innerHTML = `Division: ${num1 / num2}`;
+                    break;
+
+                case "*":
+                    document.getElementById("div1").innerHTML = `Multiplication: ${num1 * num2}`;
+                    break;
+
+                case "%":
+                    document.getElementById("div1").innerHTML = `Remainder: ${num1 % num2}`;
+                    break;
+
+                default:
+                    document.getElementById("div1").innerHTML = `Invalid Input`
+            }
+        }
+        calc();
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q20</title>
+</head>
+<body>
+    <div id="div1"></div>
+    <script>
+        var names = ['Ayush','Yassar','Anni Bhai','Ashley','Sourav']
+        let str = ''
+        for(let name of names){
+            str += name.toLocaleUpperCase()+','
+        }
+        str = str.slice(0,str.length - 1)
+        document.getElementById("div1").innerHTML = `<h3>Members of my group are</h3> ${str}`
+    </script>
+    
+</body>
+</html>

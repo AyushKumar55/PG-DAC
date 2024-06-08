@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q12</title>
+</head>
+<body>
+    <div id="mydiv">
+
+    </div>
+    <script>
+        let arr = []
+        for(let i = 0; i<6; i++)
+            arr.push(prompt("Enter Employee Name: "))
+        arr.sort(function(a,b){return a.localeCompare(b)})
+        document.getElementById("mydiv").innerHTML=`Employee Names: ${arr}`
+
+        // var str = "";
+        // for(var i of arr)
+        // {
+        //     document.getElementById("mydiv").innerHTML+=`${i}<br>`
+        // }
+    </script>
+</body>
+</html>

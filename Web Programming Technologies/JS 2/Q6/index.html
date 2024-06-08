@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q6</title>
+</head>
+
+<body>
+    <script>
+        function digitsSum() {
+            debugger
+            var num = parseInt(prompt("Enter a Five Digit Number"))
+            var sum = 0;
+            while (num != 0) {
+                let rem = (num % 10);
+                sum += rem;
+                num = Math.trunc(num/10); //trunc drops the decimals
+            }
+            document.write("Sum of its digits: " + sum);
+        }
+        digitsSum();
+    </script>
+</body>
+
+</html>

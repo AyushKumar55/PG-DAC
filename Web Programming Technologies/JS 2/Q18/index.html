@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q18</title>
+</head>
+
+<body>
+    <form>
+        <label for="str">Enter String: </label>
+        <input type="text" name="str" id="str" required /> <br><br>
+        <label for="sub">Enter Sub String: </label>
+        <input type="text" name="sub" id="sub" /><br><br>
+        <label for="rep">Replace with String: </label>
+        <input type="text" name="rep" id="rep" /><br><br>
+        <fieldset style="width: max-content;">
+            <legend>Operations</legend>
+            <input type="radio" name="operation" id="search">
+            <label for="search">Search Substring in main string</label><br>
+            <input type="radio" name="operation" id="upper">
+            <label for="upper">To Upper Case</label><br>
+            <input type="radio" name="operation" id="lower">
+            <label for="lower">To Lower Case</label><br>
+            <input type="radio" name="operation" id="trim">
+            <label for="trim">Trim Spaces</label><br>
+            <input type="radio" name="operation" id="concatenate">
+            <label for="concatenate">Concatenate</label><br>
+            <input type="radio" name="operation" id="replace">
+            <label for="replace">Replace</label><br>
+        </fieldset> <br>
+        <button type="button" id="btn">Submit Query</button>
+    </form>
+    <br>
+    <div id="div1">
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

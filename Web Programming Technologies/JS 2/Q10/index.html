@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q10</title>
+</head>
+
+<body>
+    <div id="div1"></div>
+    <script>
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+    
+        const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        const d = new Date();
+    
+        const endDate = new Date("2024-12-31")
+        document.getElementById("div1").innerHTML = `Today is ${dayNames[d.getDay()]}, ${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}, Welcome, and Good Afternoon to You.<br>Number of days left till end of year: ${Math.trunc((endDate - d)/(1000*60*60*24))}`
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q8</title>
+</head>
+<body>
+    Enter a Number: <input type="text" id="num"/><br>
+    Enter its Power: <input type="text" id="power"/><br>
+    <button type="button" id="btn" onclick="pow()">Click Here</button><br>
+    <div id="result"></div>
+    <script>
+        const pow = ()=>{
+            var num = parseInt(document.getElementById("num").value)
+            var power = parseInt(document.getElementById("power").value)
+            document.getElementById("result").innerHTML = `Result: ${num**power}`;
+        }
+    </script>
+</body>
+</html>

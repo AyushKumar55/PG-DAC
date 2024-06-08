@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q7</title>
+</head>
+<body>
+    Enter Space Separated Numbers: <input type="text" id="num"/>
+    <button type="button" id="btn" onclick="minNum()">Click Here</button><br>
+    <div id="result"></div>
+    <script>
+        const minNum = ()=>{
+            var str = document.getElementById("num");
+            var arr = (str.value.split(" "));
+            let num = parseInt(arr[0])
+            for(let i = 1; i< arr.length; i++){
+                if(num>arr[i])
+                    num = arr[i]
+            }
+            document.getElementById("result").innerHTML = `Minimum  Number = ${num}`;
+        }
+    </script>
+</body>
+</html>

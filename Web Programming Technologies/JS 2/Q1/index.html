@@ -1,0 +1,58 @@
+//
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q1</title>
+</head>
+
+<body>
+    <form style="margin: 20px;">
+        <input type="text" name="num" id="num1" placeholder="Enter first number" /><span name="err"></span><br>
+        <input type="text" name="num" id="num2" placeholder="Enter second number" /><span name="err"></span><br>
+        <input type="text" name="num" id="num3" placeholder="Enter third number" /><span name="err"></span><br>
+        <button type="button" onclick="return greatestNum()">Print Greatest Number</button><br>
+        <div id="result">
+        </div>
+    </form>
+
+    <script>
+        function greatestNum() {
+            let num = document.getElementsByName("num");
+            //to clear span before new/previous checks
+            for (let index = 0; index < num.length; index++) {
+                document.getElementsByName("err")[index].innerHTML="";
+            }
+
+            //to match if entered numbers are positive numbers with no leading zeros
+            let flag = true;
+            for (var index = 0; index < num.length; index++) {
+                if (num[index].value.match("^[1-9][0-9]*$") == null) {
+                    flag = false;
+                    break; 
+                }
+            }
+
+            //if negative or numbers with leading zeros found then throw error
+            if (!flag) {
+                document.getElementsByName("err")[index].innerHTML = "Please enter a valid number";
+                return false;
+            }
+
+            //inserting numbers into an array and converting it from string to int for max function 
+            let arr = []
+            for (let i = 0; i < num.length; i++) {
+                arr.push(parseInt(num[i].value))
+            }
+
+            //taking all the elements in one go
+            res = Math.max(...arr);
+            document.getElementById("result").innerHTML = "Greatest Number is : " + res;
+            return true;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q23</title>
+    <style>
+        .error{
+            color: red;
+        }
+        input{
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <h3>Enter Loan Information:</h3>
+        <table>
+            <tbody>
+                <tr>
+                    <td>1)</td>
+                    <td><label for="amount">Amount of the loan(any currency): </label></td> 
+                    <td><input type="number" min="0" max="1500000" id="amount"></td>
+                    <td><span class="error" id="err1"></span></td> 
+                </tr>
+                <tr>
+                    <td>2)</td>
+                    <td><label for="rate">Annual percentage rate of interest: </label></td>
+                    <td><input type="number" min="0" max="50" id="rate"></td>
+                    
+                </tr>
+                <tr>
+                    <td>3)</td>
+                    <td><label for="time">Repayment period in years: </label></td>
+                    <td><input type="number" min="0" max="50" id="time"></td>
+                    <td><span class="error" id="err2"></span></td> 
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" id="compute" onclick="Compute()">Compute</button>
+    </form>
+    <h3>Payment Information</h3>
+    <table>
+        <tr>
+            <td>4)</td>
+            <td><label for="payment">Your Monthly Payment will be: </label></td>
+            <td><input type="number" id="payment" readonly></td>
+        </tr>
+        <tr>
+            <td>5)</td>
+            <td><label for="total">Your Total Payment will be: </label></td>
+            <td><input type="number" id="total" readonly></td>
+        </tr>
+        <tr>
+            <td>6)</td>
+            <td><label for="interest">Your total interest payments will be: </label></td>
+            <td><input type="number" id="interest" readonly></td>
+        </tr>
+    </table>
+    <script src="script.js"></script>
+</body>
+</html>

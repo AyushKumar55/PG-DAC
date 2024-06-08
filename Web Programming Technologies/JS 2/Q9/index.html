@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q9</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td colspan="3">----------------------------------------------------------------------</td>
+        </tr>
+        <tr>
+            <td colspan="3">***********Calculate Compound Interest***********</td>
+        </tr>
+        <tr>
+            <td colspan="3">----------------------------------------------------------------------</td>
+        </tr>
+        <tr><td><br></td></tr>
+        <tr>
+            <td><label for="p">Principal</label></td>
+            <td style="padding-right: 40px; padding-left: 30px;">-</td>
+            <td><input type="text" name="p" id="p"/><span> &nbsp;rs<span><td>
+        </tr>
+        <tr>
+            <td><label for="r">Rate of Interest</label></td>
+            <td style="padding-right: 40px; padding-left: 30px;">-</td>
+            <td><input type="text" name="r" id="r"/><span> &nbsp;%</span><td>
+        </tr>
+        <tr>
+            <td><label for="n">Period</label></td>
+            <td style="padding-right: 40px; padding-left: 30px;">-</td>
+            <td><input type="text" name="n" id="n"/><span> &nbsp;yr<span><td>
+        </tr>
+        <tr>
+            <td><label for="ci">Comp Interest</label></td>
+            <td style="padding-right: 40px; padding-left: 30px;">-</td>
+            <td><span id="result"></span></td>
+        </tr>
+    </table>
+    <br>
+    <button type="button" id="btn" onclick="ci()">Click Here!</button><br>
+    <script>
+        const ci = ()=>{
+            var p = parseFloat(document.getElementById("p").value)
+            var r = parseFloat(document.getElementById("r").value)
+            var n = parseInt(document.getElementById("n").value)
+            document.getElementById("result").innerHTML=p*((1+(r/100))**n)-p
+        }
+    </script>
+</body>
+</html>

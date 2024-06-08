@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q25</title>
+</head>
+<body>
+    <form>
+        <fieldset>
+            <legend>Order Details</legend>
+            <label for="oid">Order Id: </label>
+            <input type="text" name="oid" id="oid" required> <br><br>
+            <label for="cname">Cust name: </label>
+            <input type="text" name="cname" id="cname" required> <span id="err1"></span><br><br>
+            <label for="billdate">Billing Date: </label>
+            <input type="date" name="billdate" id="billdate" required> <span id="err2"></span><br><br>
+            <label for="shipdate">Shipping Date: </label>
+            <input type="date" name="shipdate" id="shipdate" required> <br><br>
+            <label for="total">Order total: </label>
+            <input type="text" name="total" id="total" required><br><br>
+            <button type="button" onclick="display()">Display</button>
+        </fieldset>
+    </form>
+    <script src="script.js"></script>
+</body>
+</html>
