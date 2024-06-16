@@ -1,0 +1,8 @@
+
+Id:1, Name:Presentation, Description:Presentation on Real Estates and Investments, Date:2024-04-20, Status:PENDING, Is_Active: true
+Id:2, Name:Java Assignments, Description:Assignments on I/O, Serialization & Deserialization, Date:2024-04-23, Status:PENDING, Is_Active: true
+Id:3, Name:Java Lab Exam, Description:Prepare for the exam by Solving Practice Ques., Date:2024-04-29, Status:IN_PROGRESS, Is_Active: true
+Id:4, Name:CPP Lab Exam, Description:Appear for the exam, Date:2024-04-21, Status:COMPLETED, Is_Active: false
+Id:5, Name:EC PPT Presentation, Description:Deliver the Presentation on Real Estates and Investments, Date:2024-04-30, Status:PENDING, Is_Active: true
+Id:6, Name:StyleWithPen, Description:Complete this project, Date:2024-04-25, Status:PENDING, Is_Active: true
+Id:7, Name:Task Manager, Description:Complete this project, Date:2024-04-25, Status:PENDING, Is_Active: true

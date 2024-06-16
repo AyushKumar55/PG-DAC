@@ -1,0 +1,9 @@
+*****GROCERY ITEMS*****
+Name: Potato Price: 25 Quantity: 0 Stock Update(Date-Time): 2024-04-23T10:00:30
+Name: Onion Price: 40 Quantity: 10 Stock Update(Date-Time): 2024-04-22T09:25:40
+Name: Garlic Price: 80 Quantity: 30 Stock Update(Date-Time): 2024-04-21T09:20:10
+Name: Cucumber Price: 20 Quantity: 10 Stock Update(Date-Time): 2024-04-23T11:15:50
+Name: Carrot Price: 25 Quantity: 40 Stock Update(Date-Time): 2024-04-22T09:15:40
+Name: Raddish Price: 20 Quantity: 12 Stock Update(Date-Time): 2024-04-21T10:35:20
+Name: Drumsticks Price: 40 Quantity: 6 Stock Update(Date-Time): 2024-04-20T10:25:30
+Name: Eggs Price: 52 Quantity: 10 Stock Update(Date-Time): 2024-04-25T17:56:57.885742

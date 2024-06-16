@@ -1,0 +1,22 @@
+package tester;
+
+import java.time.LocalDate;
+import java.util.Scanner;
+
+public class TestValidate {
+	public static void main(String[] args) {
+		try (Scanner sc = new Scanner(System.in)) {
+			System.out.print("Enter current speed: ");
+			validateSpeed(sc.nextInt());	
+			
+			System.out.println("Enter your fuel type");
+			validateFuelType(sc.next().toUpperCase());
+			
+			System.out.println("Enter your Expiry date of Driving Licence");
+			validateDL(LocalDate.parse(sc.next()));
+			
+		} 
+		catch (Exception e) {
+			System.out.println(e);
+		}
+}

@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\dac\Desktop\AY_B1_DAC\CORE JAVA\LAB\10Apr\.metadata\.plugins\org.eclipse.jdt.core
+2565356412.index
+595320860.index
+1865797976.index

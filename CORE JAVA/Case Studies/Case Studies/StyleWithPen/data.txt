@@ -1,0 +1,6 @@
+ALL RECORDS
+Pen [id=1, brand=REYNOLDS, price=25.0, color=Black, InkColor=Blue, material=PLASTIC, stock=100, stockUpdateDate=2024-03-25, stockListingDate=2023-01-23, discounts=0.0]
+Pen [id=2, brand=FLAIR, price=40.0, color=Red, InkColor=Black, material=FIBER, stock=200, stockUpdateDate=2024-04-26, stockListingDate=2024-02-23, discounts=0.0]
+Pen [id=3, brand=HAUSER, price=50.0, color=Purple, InkColor=Red, material=METAL, stock=100, stockUpdateDate=2024-02-25, stockListingDate=2022-05-23, discounts=0.0]
+Pen [id=4, brand=PARKER, price=150.0, color=Blue, InkColor=Green, material=ALLOY_METAL, stock=70, stockUpdateDate=2024-01-10, stockListingDate=2023-11-23, discounts=0.0]
+Pen [id=5, brand=CELLO, price=10.0, color=Green, InkColor=Blue, material=PLASTIC, stock=250, stockUpdateDate=2024-04-25, stockListingDate=2024-01-20, discounts=0.0]
