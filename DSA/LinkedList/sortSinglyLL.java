@@ -66,7 +66,7 @@ class SinglyList {
 	public void sort() {
 		// Algorithm - Selection sort
 		Node i, j;
-		for (i = head; i != null; i = i.next) {
+		for (i = head; i.next != null; i = i.next) {
 			for (j = i.next; j != null; j = j.next) {
 				if (i.data > j.data) {
 					int temp = i.data;
